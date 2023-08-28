@@ -12,14 +12,13 @@ generator erd {
 }
 
 model Users {
-  id          Int       @id @default(autoincrement())
-  creted_at   DateTime  @default(now())
-  upadated_at DateTime  @updatedAt
-  email       String    @unique
+  id          Int      @id @default(autoincrement())
+  creted_at   DateTime @default(now())
+  upadated_at DateTime @updatedAt
+  email       String   @unique
   name        String
   password    String
   Post        Post[]
-  Comment     Comment[]
 
   @@map("users")
 }
@@ -44,9 +43,7 @@ model Comment {
   updated_at DateTime @updatedAt
   text       String
   nameAuthor String?
-  user       Users    @relation(fields: [userId], references: [id])
   post       Post     @relation(fields: [postId], references: [id])
-  userId     Int
   postId     Int
 
   @@map("comments")
