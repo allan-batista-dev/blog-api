@@ -22,6 +22,24 @@ export class PostService {
     })
   }
 
+  async lastPost(): Promise<PostEntity | null> {
+    const posts = await this.prisma.post.findMany({
+      include: {
+        comments: true
+      },
+      orderBy: { 
+        created_at: "desc"
+      },
+      take: 1 // Retorna apenas o primeiro resultado, ou seja, o último post
+    });
+  
+    if (posts.length > 0) {
+      return posts[0]; // Retorna o último post encontrado
+    } else {
+      return null; // Retorna null se não houver nenhum post no banco de dados
+    }
+  }
+
   async findOne(id: number): Promise<PostEntity> {
     const existPost = this.prisma.post.findUnique({
       where: {

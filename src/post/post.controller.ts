@@ -20,6 +20,12 @@ export class PostController {
   }
 
   @IsPublic()
+  @Get('/last-post')
+  async findLastPost() {
+    return await this.postService.lastPost();
+  }
+
+  @IsPublic()
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.postService.findOne(+id);
