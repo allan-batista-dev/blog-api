@@ -15,7 +15,11 @@ export class PostService {
   }
 
   async findAll(): Promise<PostEntity[]> {
-    return this.prisma.post.findMany()
+    return this.prisma.post.findMany({
+      include: {
+        comments: true
+      }
+    })
   }
 
   async findOne(id: number): Promise<PostEntity> {
@@ -32,6 +36,9 @@ export class PostService {
     return this.prisma.post.findUnique({
       where: {
         id
+      },
+      include: {
+        comments: true
       }
     })
   }
