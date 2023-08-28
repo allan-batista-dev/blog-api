@@ -7,13 +7,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+generator erd {
+  provider = "prisma-erd-generator"
+}
+
 model Users {
-  id          Int      @id @default(autoincrement())
-  creted_at   DateTime @default(now())
-  upadated_at DateTime @updatedAt
-  email       String   @unique
+  id          Int       @id @default(autoincrement())
+  creted_at   DateTime  @default(now())
+  upadated_at DateTime  @updatedAt
+  email       String    @unique
   name        String
   password    String
+  Post        Post[]
+  Comment     Comment[]
 
   @@map("users")
+}
+
+model Post {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  image      String
+  title      String
+  content    String
+  user       Users     @relation(fields: [userId], references: [id])
+  userId     Int
+  comments   Comment[]
+
+  @@map("posts")
+}
+
+model Comment {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  text       String
+  nameAuthor String?
+  user       Users    @relation(fields: [userId], references: [id])
+  post       Post     @relation(fields: [postId], references: [id])
+  userId     Int
+  postId     Int
+
+  @@map("comments")
 }

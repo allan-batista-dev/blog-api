@@ -17,7 +17,6 @@ export class UserController {
     return await this.userService.create(createUserDto);
   }
 
-  @IsPublic()
   @Get()
   async findAll() {
     return await this.userService.findAll()
