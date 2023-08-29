@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInterceptors, ParseFilePipe, FileTypeValidator } from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -15,15 +15,21 @@ export class PostController {
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   async create(
-    @Body() 
-    createPostDto: CreatePostDto,
-     @UploadedFile() file,
-     @CurrentUser() user: UserEntity
-     ) {
-
+    @Body() createPostDto: CreatePostDto,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new FileTypeValidator({
+            fileType: new RegExp('image/(png|jpeg)'),
+          }),
+        ],
+      }),
+    ) file,
+    @CurrentUser() user: UserEntity,
+  ) {
     const currentUser = user.id;
     const post = await this.postService.create(createPostDto, file, currentUser);
-  
+
     return post;
   }
 
