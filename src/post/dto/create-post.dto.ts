@@ -1,9 +1,10 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreatePostDto {
 
+    @IsOptional()
     @IsString()
-    image: string;
+    file: string;
 
     @IsString()
     title: string;
@@ -11,6 +12,12 @@ export class CreatePostDto {
     @IsString()
     content: string;
 
+    @IsOptional()
     @IsNumber()
     userId: number;
+
+    @IsOptional()
+    @IsString()
+    subtitle: string;
+
 }

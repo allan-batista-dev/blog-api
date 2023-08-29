@@ -27,8 +27,9 @@ model Post {
   id         Int       @id @default(autoincrement())
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
-  image      String
+  file       String?
   title      String
+  subtitle   String?
   content    String
   user       Users     @relation(fields: [userId], references: [id])
   userId     Int
