@@ -2,28 +2,63 @@ import { Injectable } from '@nestjs/common';
 import { CreateThreadDto } from './dto/create-thread.dto';
 import { UpdateThreadDto } from './dto/update-thread.dto';
 import { PrismaService } from 'src/database/prisma.service';
+import { ThreadEntity } from './entities/thread.entity';
 
 @Injectable()
 export class ThreadsService {
   constructor(private readonly prisma: PrismaService) { }
 
-  create( createThreadDto: CreateThreadDto ) {
-    return 'This action adds a new thread';
+  async create(createThreadDto: CreateThreadDto, userId: number): Promise<ThreadEntity> {
+    return this.prisma.thread.create({
+      data: createThreadDto
+    })
   }
 
-  findAll() {
-    return `This action returns all threads`;
+  async findAll(): Promise<ThreadEntity[]> {
+    return this.prisma.thread.findMany()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} thread`;
+  async findOne(id: number): Promise<ThreadEntity> {
+    return this.prisma.thread.findUnique({
+      where: {
+        id
+      }
+    })
   }
 
-  update(id: number, updateThreadDto: UpdateThreadDto) {
-    return `This action updates a #${id} thread`;
+  async update(id: number, updateThreadDto: UpdateThreadDto, userId: number): Promise<ThreadEntity> {
+    const threadsExist = this.prisma.thread.findUnique({
+      where: {
+        id
+      }
+    })
+    if (!threadsExist) {
+      throw new Error(`Threads ${id} does not exist`)
+    }
+
+    return this.prisma.thread.update({
+      where: {
+        id
+      },
+      data: updateThreadDto
+    })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} thread`;
+  async remove(id: number, userId: number): Promise<ThreadEntity> {
+    const threadsExist = this.prisma.thread.findUnique({
+      where: {
+        id
+      }
+    })
+    if (!threadsExist) {
+      throw new Error(`Threads ${id} does not exist`)
+    }
+
+    return this.prisma.thread.delete({
+      where: {
+        id
+      }
+    })
+    return
   }
 }

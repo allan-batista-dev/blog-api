@@ -10,14 +10,20 @@ import {
 import { ThreadsService } from './threads.service';
 import { CreateThreadDto } from './dto/create-thread.dto';
 import { UpdateThreadDto } from './dto/update-thread.dto';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { UserEntity } from 'src/user/entities/user.entity';
 
 @Controller('threads')
 export class ThreadsController {
-  constructor(private readonly threadsService: ThreadsService) {}
+  constructor(private readonly threadsService: ThreadsService) { }
 
   @Post()
-  create(@Body() createThreadDto: CreateThreadDto) {
-    return this.threadsService.create(createThreadDto);
+  create(
+    @Body() createThreadDto: CreateThreadDto,
+    @CurrentUser() user: UserEntity
+  ) {
+    const currentUser = user.id
+    return this.threadsService.create(createThreadDto, currentUser);
   }
 
   @Get()
@@ -31,12 +37,20 @@ export class ThreadsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateThreadDto: UpdateThreadDto) {
-    return this.threadsService.update(+id, updateThreadDto);
+  update(@Param('id') id: string,
+    @Body() updateThreadDto: UpdateThreadDto,
+    @CurrentUser() user: UserEntity
+  ) {
+    const currentUser = user.id
+    return this.threadsService.update(+id, updateThreadDto, currentUser);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.threadsService.remove(+id);
+  remove(
+    @Param('id') id: string,
+    @CurrentUser() user: UserEntity
+  ) {
+    const currentUser = user.id
+    return this.threadsService.remove(+id, currentUser);
   }
 }
