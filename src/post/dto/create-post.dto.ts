@@ -20,4 +20,8 @@ export class CreatePostDto {
     @IsString()
     subtitle: string;
 
+    @IsOptional()
+    @IsNumber()
+    threadId: number;
+
 }
