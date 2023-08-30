@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaService } from './database/prisma.service';
 import { PostModule } from './post/post.module';
 import { CommentModule } from './comment/comment.module';
+import { NewsletterModule } from './newsletter/newsletter.module';
 
 @Module({
   imports: [UserModule, AuthModule, ConfigModule.forRoot({isGlobal: true}), PostModule, CommentModule],
