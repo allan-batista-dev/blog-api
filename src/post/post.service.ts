@@ -4,6 +4,7 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { PrismaService } from 'src/database/prisma.service';
 import { PostEntity } from './entities/post.entity';
 import { createClient } from '@supabase/supabase-js';
+import { threadId } from 'worker_threads';
 
 @Injectable()
 export class PostService {
@@ -19,21 +20,24 @@ export class PostService {
       upsert: true
     })
     const imagePath = dataImage.data.path;
-  
+
     return this.prisma.post.create({
       data: {
         ...createPostDto,
         file: imagePath,
-        userId: userId
+        userId: userId,
+        threadId: threadId
       }
     })
   }
 
   async findAll(): Promise<PostEntity[]> {
     return this.prisma.post.findMany({
-      include: {
-        comments: true
-      }
+      orderBy: {
+        created_at: "desc"
+      },
+      take: 5,
+      skip: 5
     })
   }
 
@@ -45,13 +49,13 @@ export class PostService {
       orderBy: {
         created_at: "desc"
       },
-      take: 1 // Retorna apenas o primeiro resultado, ou seja, o último post
+      take: 1
     });
 
     if (posts.length > 0) {
-      return posts[0]; // Retorna o último post encontrado
+      return posts[0];
     } else {
-      return null; // Retorna null se não houver nenhum post no banco de dados
+      return null;
     }
   }
 

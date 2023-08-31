@@ -12,24 +12,26 @@ datasource db {
 // }
 
 model Users {
-  id          Int      @id @default(autoincrement())
-  creted_at   DateTime @default(now())
-  upadated_at DateTime @updatedAt
-  email       String   @unique
-  name        String
-  password    String
-  Post        Post[]
+  id                             Int                              @id @default(autoincrement())
+  creted_at                      DateTime                         @default(now())
+  upadated_at                    DateTime                         @updatedAt
+  email                          String                           @unique
+  name                           String
+  password                       String
+  Post                           Post[]
+  NewsLetterFullBlogSubscription NewsLetterFullBlogSubscription[]
 
   @@map("users")
 }
 
 model Thread {
-  id         Int      @id @default(autoincrement())
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  title      String
-  isActive   Boolean  @default(true)
-  posts      Post[]
+  id                           Int                            @id @default(autoincrement())
+  created_at                   DateTime                       @default(now())
+  updated_at                   DateTime                       @updatedAt
+  title                        String
+  isActive                     Boolean                        @default(true)
+  posts                        Post[]
+  ThreadNewsletterSubscription ThreadNewsletterSubscription[]
 }
 
 model Post {
@@ -60,4 +62,22 @@ model Comment {
   postId     Int
 
   @@map("comments")
+}
+
+model NewsLetterFullBlogSubscription {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  email      String   @unique
+  user       Users?   @relation(fields: [usersId], references: [id])
+  usersId    Int?
+}
+
+model ThreadNewsletterSubscription {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  email      String // Campo para armazenar o email do usuário
+  thread     Thread   @relation(fields: [threadId], references: [id]) // Relação com o modelo Thread
+  threadId   Int
 }

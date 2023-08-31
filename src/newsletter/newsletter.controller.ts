@@ -1,19 +1,44 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { NewsletterService } from './newsletter.service';
-import { CreateNewsletterDto } from './dto/create-newsletter.dto';
-import { UpdateNewsletterDto } from './dto/update-newsletter.dto';
+import { CreateThreadNewsletterDto, CreateNewsletterFullBlogDto } from './dto/create-newsletter.dto';
+import { UpdateNewsletterFullBlogDto, UpdateThreadNewsletterDto } from './dto/update-newsletter.dto';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { UserEntity } from 'src/user/entities/user.entity';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { threadId } from 'worker_threads';
 
 @Controller('newsletter')
 export class NewsletterController {
-  constructor(private readonly newsletterService: NewsletterService) {}
+  constructor(private readonly newsletterService: NewsletterService) { }
 
-  @Post('subscribe')
-  async subscribeToNewsletter(
-    @Body('email') email: string,
-    @Body('message') message: string,
+  @IsPublic()
+  @Post('/ass-newsletter')
+  async assNewsLetterFullBlog(@Body()
+  createNewsletterFullBlogDto: CreateNewsletterFullBlogDto,
   ) {
-    await this.newsletterService.sendNewsletter(email, message);
-    return 'Inscrição na newsletter realizada com sucesso!';
+    return await this.newsletterService.assNewsLetterFullBlog(createNewsletterFullBlogDto);
   }
-  
+
+  @IsPublic()
+  @Get('/ass-newsletter')
+  async findAssNewsLetterFullBlog() {
+    return await this.newsletterService.findAssNewsLetterFullBlog()
+  }
+
+  @IsPublic()
+  @Post('/ass-newsletter-thread')
+  async assNewsLetterThread(
+    createThreadNewsletterDto: CreateThreadNewsletterDto,
+  ) {
+    return await this.newsletterService.assNewsLetterThread(createThreadNewsletterDto);
+  }
+
+  @IsPublic()
+  @Get('/ass-newsletter-thread')
+  async findAssNewsLetterThread() {
+    return await this.newsletterService.findAssNewsLetterThread()
+  }
+
 }
+
+

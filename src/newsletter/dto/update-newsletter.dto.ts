@@ -1,4 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateNewsletterDto } from './create-newsletter.dto';
+import { CreateThreadNewsletterDto, CreateNewsletterFullBlogDto } from './create-newsletter.dto';
 
-export class UpdateNewsletterDto extends PartialType(CreateNewsletterDto) {}
+export class UpdateNewsletterFullBlogDto extends PartialType(CreateNewsletterFullBlogDto) { }
+
+export class UpdateThreadNewsletterDto extends PartialType(CreateThreadNewsletterDto) { }
+

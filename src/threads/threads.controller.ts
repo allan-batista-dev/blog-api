@@ -12,6 +12,7 @@ import { CreateThreadDto } from './dto/create-thread.dto';
 import { UpdateThreadDto } from './dto/update-thread.dto';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { UserEntity } from 'src/user/entities/user.entity';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @Controller('threads')
 export class ThreadsController {
@@ -26,11 +27,13 @@ export class ThreadsController {
     return this.threadsService.create(createThreadDto, currentUser);
   }
 
+  @IsPublic()
   @Get()
   findAll() {
     return this.threadsService.findAll();
   }
-
+  
+  @IsPublic()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.threadsService.findOne(+id);

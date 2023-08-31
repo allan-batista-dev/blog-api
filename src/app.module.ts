@@ -10,6 +10,7 @@ import { PrismaService } from './database/prisma.service';
 import { PostModule } from './post/post.module';
 import { CommentModule } from './comment/comment.module';
 import { ThreadsModule } from './threads/threads.module';
+import { NewsletterModule } from './newsletter/newsletter.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ThreadsModule } from './threads/threads.module';
     PostModule,
     CommentModule,
     ThreadsModule,
+    NewsletterModule
   ],
   controllers: [AppController],
   providers: [
