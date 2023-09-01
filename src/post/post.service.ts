@@ -35,9 +35,7 @@ export class PostService {
     return this.prisma.post.findMany({
       orderBy: {
         created_at: "desc"
-      },
-      take: 5,
-      skip: 5
+      }
     })
   }
 

@@ -25,13 +25,13 @@ export class NewsletterController {
     return await this.newsletterService.findAssNewsLetterFullBlog()
   }
 
-  @IsPublic()
-  @Post('/ass-newsletter-thread')
-  async assNewsLetterThread(
-    createThreadNewsletterDto: CreateThreadNewsletterDto,
-  ) {
-    return await this.newsletterService.assNewsLetterThread(createThreadNewsletterDto);
-  }
+  // @IsPublic()
+  // @Post('/ass-newsletter-thread')
+  // async assNewsLetterThread(
+  //   createThreadNewsletterDto: CreateThreadNewsletterDto,
+  // ) {
+  //   return await this.newsletterService.assNewsLetterThread(createThreadNewsletterDto);
+  // }
 
   @IsPublic()
   @Get('/ass-newsletter-thread')
