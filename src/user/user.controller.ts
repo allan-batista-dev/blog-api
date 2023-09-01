@@ -11,7 +11,6 @@ import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 export class UserController {
   constructor(private readonly userService: UserService) { }
 
-  @IsPublic()
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     return await this.userService.create(createUserDto);
