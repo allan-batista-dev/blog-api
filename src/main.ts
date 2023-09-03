@@ -12,11 +12,7 @@ async function bootstrap() {
     transform: true
   })
   );
-  app.enableCors({
-    origin: true,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true
-  })
+  app.enableCors()
   app.useGlobalInterceptors(new UnauthorizedErrorInterceptor);
   app.useGlobalInterceptors(new NotFoundInterceptor);
   await app.listen(3000);
