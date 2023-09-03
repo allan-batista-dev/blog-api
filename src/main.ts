@@ -13,7 +13,7 @@ async function bootstrap() {
   })
   );
   app.enableCors({
-    origin: 'https://allan-dev-blog.vercel.app/',
+    origin: 'https://allan-dev-blog.vercel.app',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true
   })
