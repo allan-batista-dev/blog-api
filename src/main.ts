@@ -5,7 +5,7 @@ import { UnauthorizedErrorInterceptor } from './common/errors/interceptors/unaut
 import { NotFoundInterceptor } from './common/errors/interceptors/notfound.interception';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
     forbidNonWhitelisted: true,
