@@ -12,6 +12,11 @@ async function bootstrap() {
     transform: true
   })
   );
+  app.enableCors({
+    origin: 'https://allan-dev-blog.vercel.app/',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true
+  })
   app.useGlobalInterceptors(new UnauthorizedErrorInterceptor);
   app.useGlobalInterceptors(new NotFoundInterceptor);
   await app.listen(3000);
