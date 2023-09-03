@@ -26,7 +26,6 @@ export class PostService {
         ...createPostDto,
         file: imagePath,
         userId: userId,
-        threadId: threadId
       }
     })
   }
