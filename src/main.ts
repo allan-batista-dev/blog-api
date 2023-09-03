@@ -5,18 +5,13 @@ import { UnauthorizedErrorInterceptor } from './common/errors/interceptors/unaut
 import { NotFoundInterceptor } from './common/errors/interceptors/notfound.interception';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
     forbidNonWhitelisted: true,
     transform: true
   })
   );
-  app.enableCors({
-    allowedHeaders: '*',
-    origin: '*',
-    credentials: true,
-  })
   app.useGlobalInterceptors(new UnauthorizedErrorInterceptor);
   app.useGlobalInterceptors(new NotFoundInterceptor);
   await app.listen(3000);
